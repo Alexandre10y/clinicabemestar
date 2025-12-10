@@ -7,6 +7,7 @@ function Cards({ totalPacientes, totalAtendimentosMes, receitaRecebida, receitaP
       <Col span={6}><Card title="Atendimentos no mês">{totalAtendimentosMes}</Card></Col>
       <Col span={6}><Card title="Receita recebida">R$ {receitaRecebida}</Card></Col>
       <Col span={6}><Card title="Receita pendente">R$ {receitaPendente}</Card></Col>
+      
     </Row>
   );
 }

@@ -20,19 +20,20 @@ function AtendimentoModal({ open, onClose, onSubmit, pacientes = [], editingData
           profissional: editingData.profissional,
           servico: editingData.servico,
           valor: editingData.valor,
+          pagamento: editingData.pagamento, // ✔ CARREGANDO PAGAMENTO
           status: editingData.status,
           obs: editingData.obs,
         });
       } else {
         form.resetFields();
 
-        // profissional padrão para usuário comum
         if (!isAdmin) {
           form.setFieldsValue({ profissional: user.nome });
         }
       }
     }
   }, [open, editingData]);
+
 
   const handleFinish = (values) => {
     const payload = {
@@ -108,6 +109,20 @@ function AtendimentoModal({ open, onClose, onSubmit, pacientes = [], editingData
           rules={[{ required: true, message: "Informe o valor" }]}
         >
           <Input type="number" min="0" step="0.01" />
+        </Form.Item>
+
+        {/* VALOR */}
+        <Form.Item
+          label="Tipo de Pagamento"
+          name="pagamento"
+          rules={[{ required: true }]}>
+          <Select
+            options={[
+              { label: "Cartão", value: "cartao" },
+              { label: "Pix", value: "pix" },
+              { label: "Dinheiro", value: "dinheiro" }
+            ]}
+          />
         </Form.Item>
 
         {/* STATUS */}

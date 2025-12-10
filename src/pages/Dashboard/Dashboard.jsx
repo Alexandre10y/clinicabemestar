@@ -67,32 +67,84 @@ function Dashboard() {
     .sort((a, b) => dayjs(b.data) - dayjs(a.data))
     .slice(0, 5);
 
+  const totalDinheiro = atendimentos
+    .filter((a) => a.status === "pago" && a.pagamento === "dinheiro")
+    .reduce((acc, a) => acc + (a.valor || 0), 0);
+
+  const totalPix = atendimentos
+    .filter((a) => a.status === "pago" && a.pagamento === "pix")
+    .reduce((acc, a) => acc + (a.valor || 0), 0);
+
+  const totalCartao = atendimentos
+    .filter((a) => a.status === "pago" && a.pagamento === "cartao")
+    .reduce((acc, a) => acc + (a.valor || 0), 0);
+
   return (
     <div>
       <Title level={3}>Clinica Bem Estar</Title>
 
       {/* === CARDS === */}
-      <div style={{ display: "flex", gap: 20, flexWrap: "wrap", marginBottom: 30 }}>
-        <Card style={{ width: 220 }}>
-          <Title level={4}>{totalHoje}</Title>
-          <Text>Atendimentos Hoje</Text>
+      <div
+        style={{
+          display: "flex",
+          gap: 20,
+          flexWrap: "wrap",
+          marginBottom: 30,
+          alignItems: "stretch",
+        }}
+      >
+        <Card style={{ width: 220, height: 120 }}>
+          <Title level={4} style={{ marginBottom: 0 }}>
+            {totalHoje}
+          </Title>
+          <Text type="secondary">Atendimentos Hoje</Text>
         </Card>
 
-        <Card style={{ width: 220 }}>
-          <Title level={4}>{totalMes}</Title>
-          <Text>Atendimentos no Mês</Text>
+        <Card style={{ width: 220, height: 120 }}>
+          <Title level={4} style={{ marginBottom: 0 }}>
+            {totalMes}
+          </Title>
+          <Text type="secondary">Atendimentos no Mês</Text>
         </Card>
 
-        <Card style={{ width: 220 }}>
-          <Title level={4}>R$ {valorTotal.toFixed(2)}</Title>
-          <Text>Valor Total</Text>
+        <Card style={{ width: 220, height: 120 }}>
+          <Title level={4} style={{ marginBottom: 0 }}>
+            R$ {valorTotal.toFixed(2)}
+          </Title>
+          <Text type="secondary">Valor Total</Text>
         </Card>
 
-        <Card style={{ width: 220 }}>
-          <Title level={4}>R$ {valorPendente.toFixed(2)}</Title>
-          <Text>Valor Pendente</Text>
+        <Card style={{ width: 220, height: 120 }}>
+          <Title level={4} style={{ marginBottom: 0 }}>
+            R$ {valorPendente.toFixed(2)}
+          </Title>
+          <Text type="secondary">Valor Pendente</Text>
+        </Card>
+
+        {/* === CARD DE PAGAMENTOS COMPACTO === */}
+        <Card
+          style={{
+            width: 250,
+            height: 120,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            paddingLeft: 15,
+            fontSize: 15,
+          }}
+        >
+          <div>
+            <Text><b>Dinheiro:</b> R$ {totalDinheiro.toFixed(2)}</Text>
+          </div>
+          <div>
+            <Text><b>Cartão:</b> R$ {totalCartao.toFixed(2)}</Text>
+          </div>
+          <div>
+            <Text><b>Pix:</b> R$ {totalPix.toFixed(2)}</Text>
+          </div>
         </Card>
       </div>
+
 
       {/* === PRÓXIMOS === */}
       <Card title="Próximos atendimentos" style={{ marginBottom: 30 }}>

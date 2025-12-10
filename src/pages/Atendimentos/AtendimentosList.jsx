@@ -42,23 +42,21 @@ function AtendimentosList() {
 
   // === CRIAR OU EDITAR ATENDIMENTO ===
   const handleSubmit = (registro) => {
-    // pegar nome do paciente automaticamente
     const paciente = pacientes.find((p) => p.key === registro.paciente);
 
     const atendimentoFinal = editingData
       ? {
-          ...editingData,
-          ...registro,
-          pacienteNome: paciente?.nome || "—",
-        }
+        ...editingData,
+        ...registro,
+        pacienteNome: paciente?.nome || "—",
+      }
       : {
-          ...registro,
-          pacienteNome: paciente?.nome || "—",
-          key: Date.now(),
-          userId,
-        };
+        ...registro,
+        pacienteNome: paciente?.nome || "—",
+        key: Date.now(),
+        userId,
+      };
 
-    // 🔥 Validação de horário duplicado
     const ehDuplicado = isHorarioDuplicado(
       atendimentoFinal,
       atendimentos,
@@ -70,23 +68,19 @@ function AtendimentosList() {
       return;
     }
 
-    // salvar lista
-    let novaLista;
-
-    if (editingData) {
-      novaLista = atendimentos.map((a) =>
+    const novaLista = editingData
+      ? atendimentos.map((a) =>
         a.key === editingData.key ? atendimentoFinal : a
-      );
-    } else {
-      novaLista = [...atendimentos, atendimentoFinal];
-    }
+      )
+      : [...atendimentos, atendimentoFinal];
 
     setAtendimentos(novaLista);
-    salvarLocal(novaLista);
+    localStorage.setItem(atendimentosKey, JSON.stringify(novaLista));
 
     setEditingData(null);
     setOpenModal(false);
   };
+
 
   // === EXCLUIR ===
   const handleDelete = (id) => {

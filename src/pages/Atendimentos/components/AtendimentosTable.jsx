@@ -17,6 +17,26 @@ function AtendimentosTable({ data, pacientes, onEdit, onDelete }) {
     { title: "Data", dataIndex: "data", key: "data" },
     { title: "Hora", dataIndex: "hora", key: "hora" },
     { title: "Profissional", dataIndex: "profissional", key: "profissional" },
+    {
+      title: "Pagamento",
+      dataIndex: "pagamento",
+      key: "pagamento",
+      render: (tipo) => {
+        const cores = {
+          dinheiro: "volcano",
+          pix: "green",
+          cartao: "blue",
+        };
+
+        const labels = {
+          dinheiro: "Dinheiro",
+          pix: "Pix",
+          cartao: "Cartão",
+        };
+
+        return <Tag color={cores[tipo]}>{labels[tipo]}</Tag>;
+      },
+    },
 
     // SERVIÇO (substitui Tipo)
     { title: "Serviço", dataIndex: "servico", key: "servico" },
@@ -33,6 +53,7 @@ function AtendimentosTable({ data, pacientes, onEdit, onDelete }) {
           <Tag color="red">Pendente</Tag>
         ),
     },
+    //Tipo de pagamento
 
     // VALOR
     {
